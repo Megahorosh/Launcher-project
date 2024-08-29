@@ -1,0 +1,14 @@
+{
+	"name": "Link_register",
+	"plugin-id": "Text",
+	"sid": 476308809888197,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [
+		{
+			"effectId": "ultimatedropshadowcolor",
+			"name": "UltimateDropShadowColor"
+		}
+	]
+}

@@ -1,0 +1,15 @@
+{
+	"name": "Text_error",
+	"plugin-id": "Text",
+	"sid": 453119809215641,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Fade",
+			"name": "Fade",
+			"sid": 965354531272366
+		}
+	],
+	"effectTypes": []
+}

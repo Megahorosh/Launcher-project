@@ -1,0 +1,14 @@
+{
+	"name": "Button_Register",
+	"plugin-id": "Button",
+	"sid": 469136607879866,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Tween",
+			"name": "Tween",
+			"sid": 207966974329233
+		}
+	]
+}

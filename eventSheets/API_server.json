@@ -1,0 +1,173 @@
+{
+	"name": "API_server",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "URL",
+			"type": "string",
+			"initialValue": "https://26.159.115.15:5001",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 458317714553474
+		},
+		{
+			"eventType": "variable",
+			"name": "CODE",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 496274424943667
+		},
+		{
+			"eventType": "variable",
+			"name": "RESPONSE",
+			"type": "string",
+			"initialValue": "",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 747436353772163
+		},
+		{
+			"functionName": "post",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "tag",
+					"type": "string",
+					"initialValue": "",
+					"comment": "",
+					"sid": 441079535634983
+				},
+				{
+					"name": "data",
+					"type": "string",
+					"initialValue": "",
+					"comment": "",
+					"sid": 332286657108706
+				},
+				{
+					"name": "endpoint",
+					"type": "string",
+					"initialValue": "",
+					"comment": "",
+					"sid": 386231893665270
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "post-to-url",
+					"objectClass": "AJAX",
+					"sid": 577491382731164,
+					"parameters": {
+						"tag": "tag",
+						"url": "URL & \"/\" & endpoint",
+						"data": "data",
+						"method": "\"POST\""
+					}
+				}
+			],
+			"sid": 761866840427527
+		},
+		{
+			"functionName": "prapare_data",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 370453784258807,
+					"parameters": {
+						"variable": "CODE",
+						"value": "AJAX.LastStatusCode"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 619948391215709,
+					"parameters": {
+						"variable": "RESPONSE",
+						"value": "AJAX.LastData"
+					}
+				},
+				{
+					"id": "parse",
+					"objectClass": "JSON",
+					"sid": 721183282007550,
+					"parameters": {
+						"data": "RESPONSE"
+					}
+				},
+				{
+					"id": "signal",
+					"objectClass": "System",
+					"sid": 162909172135372,
+					"parameters": {
+						"tag": "AJAX.Tag"
+					}
+				}
+			],
+			"sid": 343199458889439
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-any-completed",
+					"objectClass": "AJAX",
+					"sid": 490963342116744
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "prapare_data",
+					"sid": 735062157887863
+				}
+			],
+			"sid": 281256109382865
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-any-error",
+					"objectClass": "AJAX",
+					"sid": 122354768549040
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "prapare_data",
+					"sid": 565575819946959
+				},
+				{
+					"id": "set-text",
+					"objectClass": "Text_error",
+					"sid": 645311462979991,
+					"parameters": {
+						"text": "RESPONSE"
+					}
+				}
+			],
+			"sid": 877877199931296
+		}
+	],
+	"sid": 415749111519791
+}

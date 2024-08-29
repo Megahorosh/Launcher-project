@@ -1,0 +1,8 @@
+{
+	"name": "InputRegisterEmail",
+	"plugin-id": "TextBox",
+	"sid": 204250098894873,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": []
+}

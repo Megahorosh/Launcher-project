@@ -1,0 +1,13 @@
+{
+	"name": "Links",
+	"plugin-id": "Text",
+	"sid": 206283411479395,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [],
+	"members": [
+		"Link_back",
+		"Link_register",
+		"Link_ChangeEmail"
+	]
+}

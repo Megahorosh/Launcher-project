@@ -1,0 +1,14 @@
+{
+	"name": "Link_ChangeEmail",
+	"plugin-id": "Text",
+	"sid": 670001255754494,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"effectTypes": [
+		{
+			"effectId": "ultimatedropshadowcolor",
+			"name": "UltimateDropShadowColor"
+		}
+	]
+}

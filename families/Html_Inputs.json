@@ -1,0 +1,16 @@
+{
+	"name": "Html_Inputs",
+	"plugin-id": "TextBox",
+	"sid": 437889079826935,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"members": [
+		"InputLogin",
+		"InputPassword",
+		"InputRegisterCheckCode",
+		"InputRegisterEmail",
+		"InputRegisterLogin",
+		"InputRegisterPassword",
+		"InputRegisterPassword2"
+	]
+}

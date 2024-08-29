@@ -1,0 +1,12 @@
+{
+	"name": "Html_Buttons",
+	"plugin-id": "Button",
+	"sid": 906297798580192,
+	"instanceVariables": [],
+	"behaviorTypes": [],
+	"members": [
+		"Button_Login",
+		"Button_Register",
+		"Button_Register2"
+	]
+}

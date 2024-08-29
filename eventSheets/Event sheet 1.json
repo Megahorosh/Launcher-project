@@ -1,0 +1,1858 @@
+{
+	"name": "Event sheet 1",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "USER_ENDPOINT",
+			"type": "string",
+			"initialValue": "login/check_user/by_username",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": true,
+			"sid": 577100495302616
+		},
+		{
+			"eventType": "variable",
+			"name": "Saved_Login",
+			"type": "string",
+			"initialValue": "",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 138750636713180
+		},
+		{
+			"eventType": "variable",
+			"name": "Debug_mode",
+			"type": "boolean",
+			"initialValue": "false",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 484710185297701
+		},
+		{
+			"eventType": "include",
+			"includeSheet": "API_server"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 405831871131869
+				}
+			],
+			"actions": [
+				{
+					"id": "set-request-header",
+					"objectClass": "AJAX",
+					"sid": 716423751869077,
+					"disabled": true,
+					"parameters": {
+						"header": "\"Content-Type\"",
+						"value": "\"application/json\""
+					}
+				}
+			],
+			"sid": 493716498651641
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 248186284962617,
+					"parameters": {
+						"variable": "CODE",
+						"comparison": 0,
+						"value": "200"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "Text_server_status",
+					"sid": 311615464961730,
+					"parameters": {
+						"text": "\"Статус сервера: доступен\""
+					}
+				}
+			],
+			"sid": 960001008628918
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-eventvar",
+					"objectClass": "System",
+					"sid": 980804871416934,
+					"parameters": {
+						"variable": "CODE",
+						"comparison": 1,
+						"value": "200"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 346063849998981,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 849002126970508,
+							"parameters": {
+								"variable": "CODE",
+								"comparison": 1,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 121212971236854
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 889470190033950,
+							"parameters": {
+								"variable": "CODE",
+								"comparison": 0,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "Text_server_status",
+							"sid": 924274822643355,
+							"disabled": true,
+							"parameters": {
+								"text": "\"Статус сервера: недоступен \"&CODE"
+							}
+						},
+						{
+							"id": "set-text",
+							"objectClass": "Text_server_status",
+							"sid": 361494122549637,
+							"parameters": {
+								"text": "\"Проблема с подключением к серверу, код ошибки: \"&CODE"
+							}
+						}
+					],
+					"sid": 826570779821241
+				}
+			]
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Login",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-object-clicked",
+							"objectClass": "Mouse",
+							"sid": 482543289307458,
+							"parameters": {
+								"mouse-button": "left",
+								"click-type": "clicked",
+								"object-clicked": "Link_register"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "go-to-layout",
+							"objectClass": "System",
+							"sid": 741890774691300,
+							"parameters": {
+								"layout": "Layout_register"
+							}
+						}
+					],
+					"sid": 621542660051688
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-clicked",
+							"objectClass": "Button_Login",
+							"sid": 557890006338754
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "post",
+							"sid": 687444934972973,
+							"parameters": [
+								"\"login\"",
+								"\"username=\"&InputLogin.Text&\"&password=\"&InputPassword.Text",
+								"USER_ENDPOINT"
+							]
+						}
+					],
+					"sid": 806591228347610
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 752426201168047,
+							"parameters": {
+								"tag": "\"login\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "Text_debug",
+							"sid": 402957049052172,
+							"parameters": {
+								"text": "RESPONSE"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 953427140720800,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "restart-fade",
+							"objectClass": "Text_error",
+							"sid": 874865793700056,
+							"behaviorType": "Fade"
+						}
+					],
+					"sid": 376293759417218,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 624494346860090,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"successful login\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 173533862284356,
+									"parameters": {
+										"text": "\"Успешный вход\""
+									}
+								},
+								{
+									"id": "destroy",
+									"objectClass": "Button_Login",
+									"sid": 532617727044933
+								},
+								{
+									"id": "destroy",
+									"objectClass": "Link_register",
+									"sid": 402462267077500
+								},
+								{
+									"id": "destroy",
+									"objectClass": "InputLogin",
+									"sid": 508116704972008
+								},
+								{
+									"id": "destroy",
+									"objectClass": "InputPassword",
+									"sid": 936106146319813
+								},
+								{
+									"id": "destroy",
+									"objectClass": "Text_error",
+									"sid": 659414168895588
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "Icon_Logo",
+									"sid": 376575016756880,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"destroy\"",
+										"property": "offsetY",
+										"end-value": "480",
+										"time": "0.5",
+										"ease": "easeinexpo",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "Text_Logo",
+									"sid": 601249714463809,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"destroy\"",
+										"property": "offsetY",
+										"end-value": "480",
+										"time": "0.5",
+										"ease": "easeinexpo",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "destroy",
+									"objectClass": "Text_server_status",
+									"sid": 388535163319304
+								}
+							],
+							"sid": 302037708108553
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 338811361019018,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"wrong password\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 605822868489828,
+									"parameters": {
+										"text": "\"Неверный пароль\""
+									}
+								}
+							],
+							"sid": 382686397283320
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 331809510371904,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"data error\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 907304207163116,
+									"parameters": {
+										"text": "\"Такого пользователя не существует\""
+									}
+								}
+							],
+							"sid": 207853284889752
+						}
+					]
+				}
+			],
+			"sid": 242837848228014
+		},
+		{
+			"eventType": "group",
+			"disabled": true,
+			"title": "HLAM",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-start-of-layout",
+							"objectClass": "System",
+							"sid": 826984763149331
+						}
+					],
+					"actions": [
+						{
+							"id": "typewriter-text",
+							"objectClass": "Text_Logo",
+							"sid": 945433878093364,
+							"parameters": {
+								"text": "\"LAUNCHER\"",
+								"duration": "2"
+							}
+						}
+					],
+					"sid": 388801654552786
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-typewriter-text-finished",
+							"objectClass": "Text_Logo",
+							"sid": 625276702801641
+						}
+					],
+					"actions": [],
+					"sid": 294547407844253,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 307410939437838,
+									"parameters": {
+										"object": "Aim"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "tween-one-property",
+									"objectClass": "Aim",
+									"sid": 368320457124255,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"all\"",
+										"property": "offsetZElevation",
+										"end-value": "-5",
+										"time": "0.5",
+										"ease": "default",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "yes",
+										"repeat-count": "1"
+									}
+								}
+							],
+							"sid": 832103378041784
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-tick",
+							"objectClass": "System",
+							"sid": 553883057793890
+						}
+					],
+					"actions": [],
+					"sid": 486929925668356,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-completed",
+							"objectClass": "AJAX",
+							"sid": 835438219975863,
+							"parameters": {
+								"tag": "\"login\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 555884977997080,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-start-of-layout",
+							"objectClass": "System",
+							"sid": 458370180823546
+						}
+					],
+					"actions": [
+						{
+							"id": "set-request-header",
+							"objectClass": "AJAX",
+							"sid": 828933508865127,
+							"parameters": {
+								"header": "\"Access-Control-Allow-Origin:*\"",
+								"value": "\"\""
+							}
+						},
+						{
+							"id": "set-request-header",
+							"objectClass": "AJAX",
+							"sid": 368074650953958,
+							"parameters": {
+								"header": "\"Access-Control-Allow-Headers:*\"",
+								"value": "\"\""
+							}
+						}
+					],
+					"sid": 229859436689156,
+					"disabled": true
+				}
+			],
+			"sid": 225772317996231
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "UI",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-tick",
+							"objectClass": "System",
+							"sid": 372991219917530
+						}
+					],
+					"actions": [
+						{
+							"id": "set-image-angle",
+							"objectClass": "TiledBackground",
+							"sid": 576601800041014,
+							"parameters": {
+								"angle": "time"
+							}
+						},
+						{
+							"id": "set-image-offset-x",
+							"objectClass": "TiledBackground",
+							"sid": 597006422019327,
+							"parameters": {
+								"offset-x": "time"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "Sprite",
+							"sid": 859707595690837,
+							"disabled": true,
+							"parameters": {
+								"x": "lerp(Self.X,Mouse.X,0.01)",
+								"y": "lerp(Self.y,Mouse.y,0.01)"
+							}
+						}
+					],
+					"sid": 265210647750506
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-click",
+							"objectClass": "Mouse",
+							"sid": 860883121868103
+						},
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 115285965429824,
+							"parameters": {
+								"object": "Box"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "create-object",
+							"objectClass": "System",
+							"sid": 255671425288921,
+							"parameters": {
+								"object-to-create": "Sprite",
+								"layer": "\"background\"",
+								"x": "ViewportMidX(0)",
+								"y": "ViewportMidY(0)",
+								"create-hierarchy": false,
+								"template-name": "\"\""
+							}
+						},
+						{
+							"id": "tween-two-properties",
+							"objectClass": "Sprite",
+							"sid": 741890451239884,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"pulsar\"",
+								"property": "scale",
+								"end-x": "2000",
+								"end-y": "2000",
+								"time": "6",
+								"ease": "easeinquad",
+								"destroy-on-complete": "yes",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						}
+					],
+					"sid": 432846306317980
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-click",
+							"objectClass": "Mouse",
+							"sid": 265013925460057
+						},
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 858314462357815,
+							"parameters": {
+								"object": "Box"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "create-object",
+							"objectClass": "System",
+							"sid": 133564563978251,
+							"parameters": {
+								"object-to-create": "Sprite",
+								"layer": "\"background\"",
+								"x": "Mouse.x",
+								"y": "Mouse.y",
+								"create-hierarchy": false,
+								"template-name": "\"\""
+							}
+						},
+						{
+							"id": "tween-two-properties",
+							"objectClass": "Sprite",
+							"sid": 172741209963707,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"pulsar\"",
+								"property": "scale",
+								"end-x": "2000",
+								"end-y": "2000",
+								"time": "6",
+								"ease": "easeinquad",
+								"destroy-on-complete": "yes",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						}
+					],
+					"sid": 652746267401630
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 413715109785563,
+							"parameters": {
+								"object": "Aim"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-effect-parameter",
+							"objectClass": "Aim",
+							"sid": 884891696495840,
+							"parameters": {
+								"effect": "\"\"",
+								"parameter-index": "0",
+								"value": "0"
+							}
+						}
+					],
+					"sid": 444189000146354
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 697005760349716,
+							"parameters": {
+								"object": "Links"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-font-color",
+							"objectClass": "Links",
+							"sid": 230426167299654,
+							"parameters": {
+								"color": "rgbEx(100, 100, 100)"
+							}
+						}
+					],
+					"sid": 697902775059020
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 407644076831391,
+							"parameters": {
+								"object": "Links"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-font-color",
+							"objectClass": "Links",
+							"sid": 775145696592789,
+							"parameters": {
+								"color": "rgbEx(100, 56, 75)"
+							}
+						}
+					],
+					"sid": 776851607389832
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "Icon_Logo",
+							"sid": 310987813127005,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"destroy\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "tween-one-property",
+							"objectClass": "Icon_Logo",
+							"sid": 989531038562567,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"destroy2\"",
+								"property": "offsetZElevation",
+								"end-value": "500",
+								"time": "0.5",
+								"ease": "easeinexpo",
+								"destroy-on-complete": "yes",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						}
+					],
+					"sid": 957490785545940
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "Text_Logo",
+							"sid": 244233003844512,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"destroy\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "tween-one-property",
+							"objectClass": "Text_Logo",
+							"sid": 783992314672741,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"destroy2\"",
+								"property": "offsetZElevation",
+								"end-value": "500",
+								"time": "0.5",
+								"ease": "easeinexpo",
+								"destroy-on-complete": "yes",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						}
+					],
+					"sid": 380801179327340
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-key-pressed",
+							"objectClass": "Keyboard",
+							"sid": 220525684714787,
+							"parameters": {
+								"key": 27
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "toggle-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 784523236712249,
+							"parameters": {
+								"variable": "Debug_mode"
+							}
+						}
+					],
+					"sid": 294574367008320
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 801235352731680,
+							"parameters": {
+								"variable": "Debug_mode"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-visible",
+							"objectClass": "Text_debug",
+							"sid": 458648509772521,
+							"parameters": {
+								"visibility": "visible"
+							}
+						}
+					],
+					"sid": 303573276993640
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 979852460550658,
+							"parameters": {
+								"variable": "Debug_mode"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-visible",
+							"objectClass": "Text_debug",
+							"sid": 519353388927851,
+							"parameters": {
+								"visibility": "invisible"
+							}
+						}
+					],
+					"sid": 462410889033624
+				}
+			],
+			"sid": 416124179381326
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-object-clicked",
+					"objectClass": "Mouse",
+					"sid": 864323985701677,
+					"parameters": {
+						"mouse-button": "left",
+						"click-type": "clicked",
+						"object-clicked": "Link_ChangeEmail"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "go-to-layout",
+					"objectClass": "System",
+					"sid": 993157098238691,
+					"parameters": {
+						"layout": "Layout_register"
+					}
+				}
+			],
+			"sid": 382286024275046
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Register Email Confirm 1",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-object-clicked",
+							"objectClass": "Mouse",
+							"sid": 980222843251772,
+							"parameters": {
+								"mouse-button": "left",
+								"click-type": "clicked",
+								"object-clicked": "Link_back"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "go-to-layout",
+							"objectClass": "System",
+							"sid": 826606021030493,
+							"parameters": {
+								"layout": "Layout_login"
+							}
+						}
+					],
+					"sid": 925097759426051
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-clicked",
+							"objectClass": "Button_Register",
+							"sid": 753309420085037
+						},
+						{
+							"id": "compare-text",
+							"objectClass": "Button_Register",
+							"sid": 559086459871811,
+							"parameters": {
+								"text-to-compare": "\"Отправить код\"",
+								"case-sensitivity": "ignore-case"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 165701267879004,
+							"parameters": {
+								"visibility": "visible"
+							}
+						}
+					],
+					"sid": 999991948630590,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 799911785800466,
+									"parameters": {
+										"string": "InputRegisterEmail.Text",
+										"regex": "\"@\"",
+										"flags": "\"gi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "post",
+									"sid": 634833240585175,
+									"parameters": [
+										"\"email_confirm\"",
+										"\"email=\"&InputRegisterEmail.Text",
+										"\"registration/send_code\""
+									]
+								}
+							],
+							"sid": 644305904221224
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 982525608508545,
+									"parameters": {
+										"string": "InputRegisterEmail.Text",
+										"regex": "\"@\"",
+										"flags": "\"gi\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 388017749910896,
+									"parameters": {
+										"text": "\"Неверный формат почты\""
+									}
+								},
+								{
+									"id": "restart-fade",
+									"objectClass": "Text_error",
+									"sid": 677187282306172,
+									"behaviorType": "Fade"
+								}
+							],
+							"sid": 136200704270900
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterEmail",
+									"sid": 826041102050118,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 815109777084690,
+									"parameters": {
+										"text": "\"Введите почту\""
+									}
+								},
+								{
+									"id": "restart-fade",
+									"objectClass": "Text_error",
+									"sid": 850919893055674,
+									"behaviorType": "Fade"
+								}
+							],
+							"sid": 692421157124628
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 464256913956459,
+							"parameters": {
+								"tag": "\"email_confirm\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "Text_debug",
+							"sid": 532927240261372,
+							"parameters": {
+								"text": "RESPONSE"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 371871629405133,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "restart-fade",
+							"objectClass": "Text_error",
+							"sid": 703214676520844,
+							"behaviorType": "Fade"
+						}
+					],
+					"sid": 558727120690259,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 418729496266102,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"Code sent successfully\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 556312263776225,
+									"parameters": {
+										"text": "\"\""
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "Button_Register",
+									"sid": 342168134323584,
+									"parameters": {
+										"text": "\"Подтвердить\""
+									}
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "Button_Register",
+									"sid": 502661369302194,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"register\"",
+										"property": "offsetY",
+										"end-value": "592",
+										"time": "0.5",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "InputRegisterEmail",
+									"sid": 488539206183965,
+									"parameters": {
+										"mode": "disabled"
+									}
+								}
+							],
+							"sid": 167763494143368
+						}
+					]
+				}
+			],
+			"sid": 826627919246238
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Register Email Confirm 2",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-clicked",
+							"objectClass": "Button_Register",
+							"sid": 824784202061016
+						},
+						{
+							"id": "compare-text",
+							"objectClass": "Button_Register",
+							"sid": 161342407743675,
+							"parameters": {
+								"text-to-compare": "\"Подтвердить\"",
+								"case-sensitivity": "ignore-case"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 759195596499150,
+							"parameters": {
+								"visibility": "visible"
+							}
+						}
+					],
+					"sid": 804139460199098,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterCheckCode",
+									"sid": 926399401041811,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "post",
+									"sid": 664835360477286,
+									"parameters": [
+										"\"code_confirm\"",
+										"\"confirmation_code=\"&int(InputRegisterCheckCode.Text)",
+										"\"registration/confirm_email\""
+									]
+								}
+							],
+							"sid": 378375195312532
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterCheckCode",
+									"sid": 633779647618100,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 258757282208369,
+									"parameters": {
+										"text": "\"Введите код\""
+									}
+								},
+								{
+									"id": "restart-fade",
+									"objectClass": "Text_error",
+									"sid": 105470510978162,
+									"behaviorType": "Fade"
+								}
+							],
+							"sid": 148845744562876
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 304124616995326,
+							"parameters": {
+								"tag": "\"code_confirm\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "Text_debug",
+							"sid": 168027376702622,
+							"parameters": {
+								"text": "RESPONSE"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 616357793164367,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "restart-fade",
+							"objectClass": "Text_error",
+							"sid": 161136099253106,
+							"behaviorType": "Fade"
+						}
+					],
+					"sid": 297772406798824,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 522058394941237,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"Nice confirmation!\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 751093384196317,
+									"parameters": {
+										"text": "\"\""
+									}
+								},
+								{
+									"id": "go-to-layout",
+									"objectClass": "System",
+									"sid": 177327326486650,
+									"parameters": {
+										"layout": "Layout_register2"
+									}
+								}
+							],
+							"sid": 984975413098631
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 548699829377713,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"Wrong confirmation!\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 573967257013567,
+									"parameters": {
+										"text": "\"Неверный код\""
+									}
+								},
+								{
+									"id": "go-to-layout",
+									"objectClass": "System",
+									"sid": 998719708217067,
+									"parameters": {
+										"layout": "Layout_register2"
+									}
+								}
+							],
+							"sid": 273064565515465
+						}
+					]
+				}
+			],
+			"sid": 710221254406899
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "Register Final",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-clicked",
+							"objectClass": "Button_Register2",
+							"sid": 740957958303749
+						},
+						{
+							"id": "compare-text",
+							"objectClass": "Button_Register2",
+							"sid": 542387534837352,
+							"parameters": {
+								"text-to-compare": "\"Зарегистрироваться\"",
+								"case-sensitivity": "ignore-case"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 363875217898813,
+							"parameters": {
+								"visibility": "visible"
+							}
+						}
+					],
+					"sid": 715740631510767,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterLogin",
+									"sid": 861245570284383,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterPassword",
+									"sid": 178228929476167,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterPassword2",
+									"sid": 616452359155780,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterPassword",
+									"sid": 310808752787360,
+									"parameters": {
+										"text": "InputRegisterPassword2.Text",
+										"case": "case-sensitive"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "post",
+									"sid": 322875251412060,
+									"parameters": [
+										"\"username_password_confirm\"",
+										"\"username=\"&InputRegisterLogin.Text&\"&\"&\"password=\"&InputRegisterPassword.text",
+										"\"registration/register\""
+									]
+								}
+							],
+							"sid": 293687730093878
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterLogin",
+									"sid": 350370719057517,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 738867208909044,
+									"parameters": {
+										"text": "\"Введите имя пользователя\""
+									}
+								},
+								{
+									"id": "restart-fade",
+									"objectClass": "Text_error",
+									"sid": 765092385932946,
+									"behaviorType": "Fade"
+								}
+							],
+							"sid": 921678049434379
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-text",
+									"objectClass": "InputRegisterLogin",
+									"sid": 362707513148394,
+									"parameters": {
+										"text": "\"\"",
+										"case": "case-insensitive"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [],
+							"sid": 476973527692703,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-text",
+											"objectClass": "InputRegisterPassword",
+											"sid": 538699969179668,
+											"parameters": {
+												"text": "\"\"",
+												"case": "case-insensitive"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-text",
+											"objectClass": "Text_error",
+											"sid": 373148156350587,
+											"parameters": {
+												"text": "\"Введите пароль\""
+											}
+										},
+										{
+											"id": "restart-fade",
+											"objectClass": "Text_error",
+											"sid": 722434311858142,
+											"behaviorType": "Fade"
+										}
+									],
+									"sid": 520506589837535
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-text",
+											"objectClass": "InputRegisterPassword",
+											"sid": 438559249745522,
+											"parameters": {
+												"text": "\"\"",
+												"case": "case-insensitive"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"sid": 873406554405831,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-text",
+													"objectClass": "InputRegisterPassword2",
+													"sid": 138214394278247,
+													"parameters": {
+														"text": "\"\"",
+														"case": "case-insensitive"
+													}
+												},
+												{
+													"id": "compare-text",
+													"objectClass": "InputRegisterPassword",
+													"sid": 859120190449844,
+													"parameters": {
+														"text": "InputRegisterPassword2.Text",
+														"case": "case-sensitive"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "Text_error",
+													"sid": 119855385695818,
+													"parameters": {
+														"text": "\"Пароли не совпадают\""
+													}
+												},
+												{
+													"id": "restart-fade",
+													"objectClass": "Text_error",
+													"sid": 888834687137828,
+													"behaviorType": "Fade"
+												}
+											],
+											"sid": 586000829625572,
+											"isOrBlock": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 430661433459041,
+							"parameters": {
+								"tag": "\"username_password_confirm\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "Text_debug",
+							"sid": 518243059743868,
+							"parameters": {
+								"text": "RESPONSE"
+							}
+						},
+						{
+							"id": "restart-fade",
+							"objectClass": "Text_error",
+							"sid": 510324185536281,
+							"behaviorType": "Fade"
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "Text_error",
+							"sid": 101701704078829,
+							"parameters": {
+								"visibility": "visible"
+							}
+						}
+					],
+					"sid": 561565285689461,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 844534994966505,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"registration success\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 575285473011690,
+									"parameters": {
+										"text": "\"Вы успешно зарегистрировались!\""
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 989903719666720,
+									"parameters": {
+										"variable": "Saved_Login",
+										"value": "InputLogin.Text"
+									}
+								},
+								{
+									"id": "destroy",
+									"objectClass": "InputRegisterPassword2",
+									"sid": 692227351930523
+								},
+								{
+									"id": "destroy",
+									"objectClass": "InputRegisterPassword",
+									"sid": 122465788031856
+								},
+								{
+									"id": "destroy",
+									"objectClass": "InputRegisterLogin",
+									"sid": 808377764418360
+								},
+								{
+									"id": "set-text",
+									"objectClass": "Button_Register2",
+									"sid": 850751650578443,
+									"parameters": {
+										"text": "\"Готово\""
+									}
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "Button_Register",
+									"sid": 957474055839250,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"finish\"",
+										"property": "offsetY",
+										"end-value": "512",
+										"time": "0.5",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "destroy",
+									"objectClass": "Link_ChangeEmail",
+									"sid": 112805816773092
+								}
+							],
+							"sid": 254292729152220
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 139356793332308,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"error\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "Text_error",
+									"sid": 472143604936492,
+									"parameters": {
+										"text": "\"Ошибка сервера\""
+									}
+								}
+							],
+							"sid": 607342196763629
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-clicked",
+							"objectClass": "Button_Register2",
+							"sid": 974937844547327
+						},
+						{
+							"id": "compare-text",
+							"objectClass": "Button_Register2",
+							"sid": 953619691071703,
+							"parameters": {
+								"text-to-compare": "\"Готово\"",
+								"case-sensitivity": "ignore-case"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "go-to-layout",
+							"objectClass": "System",
+							"sid": 743210857699682,
+							"parameters": {
+								"layout": "Layout_login"
+							}
+						}
+					],
+					"sid": 107191046583280
+				}
+			],
+			"sid": 684889270731174
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 328165763538548
+				}
+			],
+			"actions": [],
+			"sid": 907065796881338,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 123621412417264,
+							"parameters": {
+								"variable": "Saved_Login",
+								"comparison": 1,
+								"value": "\"\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "InputLogin",
+							"sid": 262005191614127,
+							"parameters": {
+								"text": "Saved_Login"
+							}
+						}
+					],
+					"sid": 135223109291440
+				}
+			]
+		}
+	],
+	"sid": 425262680281846
+}

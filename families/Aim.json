@@ -1,0 +1,32 @@
+{
+	"name": "Aim",
+	"plugin-id": "NinePatch",
+	"sid": 630099871531145,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Tween",
+			"name": "Tween",
+			"sid": 930388766242726
+		}
+	],
+	"effectTypes": [
+		{
+			"effectId": "ultimatedropshadowcolor",
+			"name": "UltimateDropShadowColor2"
+		},
+		{
+			"effectId": "replacecolor",
+			"name": "ReplaceColor"
+		},
+		{
+			"effectId": "replacecolor",
+			"name": "ReplaceColor2"
+		}
+	],
+	"members": [
+		"Input",
+		"Button",
+		"Box"
+	]
+}

@@ -1,0 +1,28 @@
+{
+	"name": "Text_Logo",
+	"plugin-id": "Text",
+	"sid": 982439442643369,
+	"isGlobal": false,
+	"instanceVariables": [],
+	"behaviorTypes": [
+		{
+			"behaviorId": "Tween",
+			"name": "Tween",
+			"sid": 905187642661617
+		}
+	],
+	"effectTypes": [
+		{
+			"effectId": "Mikal_GodRays",
+			"name": "GodRays"
+		},
+		{
+			"effectId": "glowhorizontal",
+			"name": "GlowHorizontal"
+		},
+		{
+			"effectId": "glowvertical",
+			"name": "GlowVertical"
+		}
+	]
+}
