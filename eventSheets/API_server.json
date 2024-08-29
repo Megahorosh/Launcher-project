@@ -159,8 +159,8 @@
 				},
 				{
 					"id": "set-text",
-					"objectClass": "Text_error",
-					"sid": 645311462979991,
+					"objectClass": "Text_debug",
+					"sid": 692957426863691,
 					"parameters": {
 						"text": "RESPONSE"
 					}

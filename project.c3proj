@@ -200,7 +200,8 @@
 			"InputRegisterPassword2",
 			"TiledBackground",
 			"HTMLElement",
-			"Sprite"
+			"Sprite",
+			"DebugText"
 		],
 		"subfolders": []
 	},
@@ -226,14 +227,31 @@
 	},
 	"eventSheets": {
 		"items": [
-			"Event sheet 1",
+			"LoginRegister",
 			"API_server"
 		],
 		"subfolders": []
 	},
 	"rootFileFolders": {
 		"script": {
-			"items": [],
+			"items": [
+				{
+					"name": "main.js",
+					"type": "application/javascript",
+					"sid": 645685156650133,
+					"script-info": {
+						"purpose": "none"
+					}
+				},
+				{
+					"name": "ImportForEvents.js",
+					"type": "application/javascript",
+					"sid": 923127693264600,
+					"script-info": {
+						"purpose": "imports-for-events"
+					}
+				}
+			],
 			"subfolders": []
 		},
 		"sound": {

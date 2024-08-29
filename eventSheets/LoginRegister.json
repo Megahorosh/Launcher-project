@@ -1,5 +1,5 @@
 {
-	"name": "Event sheet 1",
+	"name": "LoginRegister",
 	"events": [
 		{
 			"eventType": "variable",
@@ -984,108 +984,11 @@
 					],
 					"actions": [
 						{
-							"id": "set-visible",
-							"objectClass": "Text_error",
-							"sid": 165701267879004,
-							"parameters": {
-								"visibility": "visible"
-							}
+							"type": "script",
+							"script": "const Text_error = runtime.objects.Text_error.getFirstInstance()\nconst email = runtime.objects.InputRegisterEmail.getFirstInstance().text\nif (CheckEmail(email)){\n\terror_text_appearence(Text_error, \"Отправка кода подтверждения\", true)\n\truntime.callFunction(\"post\", ...[\"email_confirm\", `email=${email}`, \"registration/send_code\"])\n}\nelse if (email === ''){\n\terror_text_appearence(Text_error, \"Введите почту\", true)\n}\nelse {\n\terror_text_appearence(Text_error, \"Неверный формат почты\", true)\n}\n"
 						}
 					],
-					"sid": 999991948630590,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "test-regex",
-									"objectClass": "System",
-									"sid": 799911785800466,
-									"parameters": {
-										"string": "InputRegisterEmail.Text",
-										"regex": "\"@\"",
-										"flags": "\"gi\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "post",
-									"sid": 634833240585175,
-									"parameters": [
-										"\"email_confirm\"",
-										"\"email=\"&InputRegisterEmail.Text",
-										"\"registration/send_code\""
-									]
-								}
-							],
-							"sid": 644305904221224
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "test-regex",
-									"objectClass": "System",
-									"sid": 982525608508545,
-									"parameters": {
-										"string": "InputRegisterEmail.Text",
-										"regex": "\"@\"",
-										"flags": "\"gi\""
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [
-								{
-									"id": "set-text",
-									"objectClass": "Text_error",
-									"sid": 388017749910896,
-									"parameters": {
-										"text": "\"Неверный формат почты\""
-									}
-								},
-								{
-									"id": "restart-fade",
-									"objectClass": "Text_error",
-									"sid": 677187282306172,
-									"behaviorType": "Fade"
-								}
-							],
-							"sid": 136200704270900
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-text",
-									"objectClass": "InputRegisterEmail",
-									"sid": 826041102050118,
-									"parameters": {
-										"text": "\"\"",
-										"case": "case-insensitive"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-text",
-									"objectClass": "Text_error",
-									"sid": 815109777084690,
-									"parameters": {
-										"text": "\"Введите почту\""
-									}
-								},
-								{
-									"id": "restart-fade",
-									"objectClass": "Text_error",
-									"sid": 850919893055674,
-									"behaviorType": "Fade"
-								}
-							],
-							"sid": 692421157124628
-						}
-					]
+					"sid": 999991948630590
 				},
 				{
 					"eventType": "block",
@@ -1099,32 +1002,64 @@
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-text",
-							"objectClass": "Text_debug",
-							"sid": 532927240261372,
-							"parameters": {
-								"text": "RESPONSE"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "Text_error",
-							"sid": 371871629405133,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "restart-fade",
-							"objectClass": "Text_error",
-							"sid": 703214676520844,
-							"behaviorType": "Fade"
-						}
-					],
+					"actions": [],
 					"sid": 558727120690259,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "test-regex",
+									"objectClass": "System",
+									"sid": 529583022432929,
+									"parameters": {
+										"string": "RESPONSE",
+										"regex": "\"Syntax error\"",
+										"flags": "\"im\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "script",
+									"script": "error_text_appearence(runtime.objects.Text_error.getFirstInstance(), \"Ошибка сервера\", true)"
+								},
+								{
+									"id": "set-text",
+									"objectClass": "Button_Register",
+									"sid": 413564409514438,
+									"parameters": {
+										"text": "\"Подтвердить\""
+									}
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "Button_Register",
+									"sid": 815264754595303,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"register\"",
+										"property": "offsetY",
+										"end-value": "592",
+										"time": "0.5",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "InputRegisterEmail",
+									"sid": 240392432639216,
+									"parameters": {
+										"mode": "disabled"
+									}
+								}
+							],
+							"sid": 441419471793953
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -1141,12 +1076,8 @@
 							],
 							"actions": [
 								{
-									"id": "set-text",
-									"objectClass": "Text_error",
-									"sid": 556312263776225,
-									"parameters": {
-										"text": "\"\""
-									}
+									"type": "script",
+									"script": "error_text_appearence(runtime.objects.Text_error.getFirstInstance(), \"Код подтверждения отправлен\", true)"
 								},
 								{
 									"id": "set-text",
@@ -1214,16 +1145,7 @@
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-visible",
-							"objectClass": "Text_error",
-							"sid": 759195596499150,
-							"parameters": {
-								"visibility": "visible"
-							}
-						}
-					],
+					"actions": [],
 					"sid": 804139460199098,
 					"children": [
 						{
@@ -1268,18 +1190,8 @@
 							],
 							"actions": [
 								{
-									"id": "set-text",
-									"objectClass": "Text_error",
-									"sid": 258757282208369,
-									"parameters": {
-										"text": "\"Введите код\""
-									}
-								},
-								{
-									"id": "restart-fade",
-									"objectClass": "Text_error",
-									"sid": 105470510978162,
-									"behaviorType": "Fade"
+									"type": "script",
+									"script": "error_text_appearence(runtime.objects.Text_error.getFirstInstance(), \"Введите код\", true)"
 								}
 							],
 							"sid": 148845744562876
@@ -1300,30 +1212,36 @@
 					],
 					"actions": [
 						{
-							"id": "set-text",
-							"objectClass": "Text_debug",
-							"sid": 168027376702622,
-							"parameters": {
-								"text": "RESPONSE"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "Text_error",
-							"sid": 616357793164367,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "restart-fade",
-							"objectClass": "Text_error",
-							"sid": 161136099253106,
-							"behaviorType": "Fade"
+							"type": "script",
+							"script": "if (runtime.globalVars.RESPONSE === \"Nice confirmation!\"){\n\terror_text_appearence(runtime.objects.Text_error.getFirstInstance(), \"Верный код\", true)\n\truntime.goToLayout(\"Layout_register2\")\n}\nelse if (runtime.globalVars.RESPONSE === \"Wrong confirmation!\"){\n\terror_text_appearence(runtime.objects.Text_error.getFirstInstance(), \"Неверный код\", true)\n}"
 						}
 					],
 					"sid": 297772406798824,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "DebugText",
+									"sid": 451713640961596,
+									"parameters": {
+										"text": "\"asdasdas das ASD AS DsaD ASD AS dAS \""
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "Text_debug",
+									"sid": 604322523149825,
+									"parameters": {
+										"text": "RESPONSE"
+									}
+								}
+							],
+							"sid": 589955264028917,
+							"disabled": true
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -1340,57 +1258,21 @@
 							],
 							"actions": [
 								{
-									"id": "set-text",
-									"objectClass": "Text_error",
-									"sid": 751093384196317,
-									"parameters": {
-										"text": "\"\""
-									}
-								},
-								{
 									"id": "go-to-layout",
 									"objectClass": "System",
 									"sid": 177327326486650,
+									"disabled": true,
 									"parameters": {
 										"layout": "Layout_register2"
-									}
-								}
-							],
-							"sid": 984975413098631
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "test-regex",
-									"objectClass": "System",
-									"sid": 548699829377713,
-									"parameters": {
-										"string": "RESPONSE",
-										"regex": "\"Wrong confirmation!\"",
-										"flags": "\"im\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-text",
-									"objectClass": "Text_error",
-									"sid": 573967257013567,
-									"parameters": {
-										"text": "\"Неверный код\""
 									}
 								},
 								{
-									"id": "go-to-layout",
-									"objectClass": "System",
-									"sid": 998719708217067,
-									"parameters": {
-										"layout": "Layout_register2"
-									}
+									"type": "script",
+									"script": "error_text_appearence(runtime.objects.Text_error.getFirstInstance(), \"Верный код\", true)"
 								}
 							],
-							"sid": 273064565515465
+							"sid": 984975413098631,
+							"disabled": true
 						}
 					]
 				}
