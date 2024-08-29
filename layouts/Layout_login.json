@@ -582,8 +582,8 @@
 					"instanceVariables": {},
 					"behaviors": {},
 					"world": {
-						"x": 75,
-						"y": 75,
+						"x": 544,
+						"y": 304,
 						"width": 336,
 						"height": 224,
 						"originX": 0,
@@ -991,5 +991,5 @@
 	"vpX": 0.5,
 	"vpY": 0.5,
 	"projection": "perspective",
-	"eventSheet": "Event sheet 1"
+	"eventSheet": "LoginRegister"
 }
